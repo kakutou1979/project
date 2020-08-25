@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="./css/common.css" type="text/css">
+<link rel="stylesheet" href="./css/EA004.css" type="text/css">
+<script src="./js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="./js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<script src="./js/common.js" type="text/javascript"></script>
+<script src="./js/EA003.js" type="text/javascript"></script>
+<title>ユーザアカウント作成</title>
+</head>
+<body class="d-flex flex-column">
+
+	<form id="ea003" action="./addPlan" method="post" role="from" enctype="multipart/form-data" class="form-horizontal">
+		<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-2 border-bottom shadow-bottom">
+			<ul class="navbar-nav px-3">
+				<li class="nav-item text-nowrap">
+					<a class="nav-link" href="#">Back</a>
+				</li>
+			</ul>
+			<h5 class="navbar-brand my-0 mr-md-auto font-weight-normal img-center"><img src="./images/logotop.jpg">株式会社イオグランツ 土地販促システム</h5>
+			<ul class="navbar-nav px-3">
+				<li class="nav-item text-nowrap">
+					<a class="nav-link" href="#">Logout</a>
+				</li>
+			</ul>
+		</nav>
+		<main role="main" class="container pt-3">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<button type="submit" class="btn list-group-item-primary btn-lg col-sm-12 maskable" id="btn_insert">登録</button>
+					</div>
+					<div class="form-group form-inline">
+						<label for="recipient-name" class="control-label">プラン名称：</label>
+						<input type="text" class="from-control" name="planName" id="planName" placeholder="プラン名称設定" required="required" maxlength="50">
+					</div>
+					<div class="form-group form-inline">
+						<label for="recipient-name" class=" control-label">　延床面積：</label>
+						<input type="text" class="from-control numberFormat" name="totalFloorArea" id="totalFloorArea" data-siteArea="" placeholder="例：999999.999" required="required" maxlength="10" onkeypress='return(/[\d.]/.test(String.fromCharCode(event.keyCode)))'>
+						<label for="totalFloorArea">㎡</label>
+					</div>
+					<div class="form-group form-inline">
+						<label for="recipient-name" class=" control-label">　建築面積：</label>
+						<input type="text" class="from-control numberFormat" name="hoseArea" id="hoseArea" placeholder="例：999999.999" data-siteArea="" required="required" maxlength="10" onkeypress='return(/[\d.]/.test(String.fromCharCode(event.keyCode)))'>
+						<label for="hoseArea">㎡</label>
+					</div>
+					<div class="form-group form-inline">
+						<label for="recipient-name" class="control-label">　建物金額：</label>
+						<input type="text" class="from-control numberFormat" name="housePrice" id="housePrice" placeholder="例：9999999999999" required="required" maxlength="13" onkeypress='return(/[\d]/.test(String.fromCharCode(event.keyCode)))'>
+						<label for="housePrice">円</label>
+					</div>
+					<div class="form-group form-inline">
+					  <label for="recipient-name" class="control-label">　　　方位：</label>
+					  <div >
+						<select  th:name="direction"  class="form-control" >
+							<option value="1">東</option>
+							<option value="2">南</option>
+							<option value="3">西</option>
+							<option value="4">北</option>
+						</select>
+					  </div>
+					</div>
+					<div class="form-group form-inline">
+						<label for="recipient-name" class="control-label">　　間取り：</label>
+						<div>
+							<select th:name="roomLayout"
+								class="form-control">
+								<option value="2LDK以下">2LDK以下</option>
+								<option value="3K">3K</option>
+								<option value="3DK">3DK</option>
+								<option value="3LDK">3LDK</option>
+								<option value="4K">4K</option>
+								<option value="4DK">4DK</option>
+								<option value="4LDK">4LDK</option>
+								<option value="5K以上">5K以上</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">手描画像</label>
+						   	<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImgdraw" >
+							   	<div class="outbox" id="addDrawImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="drawAdd">
+							   	</div>
+						   	</div>
+						</div>
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">外観画像</label>
+						   		<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImgouter" >
+							   	<div class="outbox" id="addOuterImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="outerAdd">
+							   	</div>
+						   	</div>
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">内観画像</label>
+						   		<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImginner" >
+							   	<div class="outbox" id="addInnerImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="innerAdd">
+							   	</div>
+						   	</div>
+						</div>
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">間取画像</label>
+						   		<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImgplane" >
+							   	<div class="outbox" id="addPlaneImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="planeAdd">
+							   	</div>
+						   	</div>
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">俯瞰画像</label>
+						   		<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImgoverlook" >
+							   	<div class="outbox" id="addOverlookImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="overlookAdd">
+							   	</div>
+						   	</div>
+						</div>
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">立面画像</label>
+						   		<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImgside" >
+							   	<div class="outbox" id="addSideImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="sideAdd">
+							   	</div>
+						   	</div>
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div class="col-sm-6">
+						   <label for="recipient-name" class="control-label">四面画像</label>
+						   		<div style="border:1px solid#ccc; width:100%;height:65px;overflow-y:scroll;" id="previewImgpath" >
+							   	<div class="outbox" id="addPathImg">
+									<img style="width: 50px;height: 50px;" src="./images/add.png" id="pathAdd">
+							   	</div>
+						   	</div>
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div class="col-sm-6">
+							<button type="button" class="btn list-group-item-primary col-sm-12" id="btn_setCoordinate">座標設定</button>
+						</div>
+						<div class="col-sm-6">
+							<button type="button" class="btn list-group-item-primary col-sm-12" id="btn_setUrl">URL設定</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		
+		<div class="modal fade bs-example-modal-lg" id="setUrlModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">URL設定</h4>
+					</div>
+					<div class="modal-body">
+						<div class="container" style="padding: 20px 10px;">
+							<table class="table table-bordered" id="para_table_url">
+								<thead>
+									<tr class="tr-eu006">
+										<th style="text-align: center; width: 35%;">タイトル</th>
+										<th style="text-align: center; width: 45%;">URL</th>
+										<th style="text-align: center; width: 20%;">操作</th>
+									</tr>
+								</thead>
+								<tbody class="tbody-ea002" id="urlResult">
+									<tr>
+										<td style="text-align: center;width: 35%; word-break: break-all" >
+											<input type="text" class="form-control"
+											placeholder="タイトル設定" maxlength="20">
+										</td>
+										<td style="text-align: center;width: 45%; word-break: break-all">
+											<input type="text" class="form-control"
+											placeholder="URL設定" maxlength="200">
+										</td>
+										<td style="text-align: center;width: 20%; word-break: break-all">
+											<button type="button" class="btn list-group-item-primary"
+												id="btn_del">削除</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="form-group row">
+								<div class="col-sm-offset-2 col-sm-12 text-right">
+									<button type="button" class="btn list-group-item-primary" data-dismiss="modal" id="btn_cancelUrl">閉じる</button>
+									<button type="button" class="btn list-group-item-primary" id="btn_addUrl">追加</button>
+									<button type="button" class="btn list-group-item-primary col-sm-2" data-dismiss="modal" id="btn_confirmUrl">設定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade bs-example-modal-lg" id="setCoordinateModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">座標設定</h4>
+					</div>
+					<div class="modal-body">
+						<div class="container" style="padding: 20px 10px;">
+							<table class="table table-bordered" id="para_table_cordinate">
+								<thead>
+									<tr class="tr-eu006">
+										<th style="text-align: center; width: 40%;">X</th>
+										<th style="text-align: center; width: 40%;">Y</th>
+										<th style="text-align: center; width: 20%;">操作</th>
+									</tr>
+								</thead>
+								<tbody class="tbody-ea002" id="cordinateResult">
+									<tr>
+										<td style="text-align: center;width: 40%; word-break: break-all" >
+											<input type="text" class="form-control" placeholder="例：999.999" maxlength="7" onkeypress='return(/[\d.]/.test(String.fromCharCode(event.keyCode)))'>
+										</td>
+										<td style="text-align: center;width: 40%; word-break: break-all">
+											<input type="text" class="form-control" placeholder="例：999.999" maxlength="7" onkeypress='return(/[\d.]/.test(String.fromCharCode(event.keyCode)))'>
+										</td>
+										<td style="text-align: center;width: 20%; word-break: break-all">
+											<button type="button" class="btn list-group-item-primary" id="btn_delCoordinate">削除</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="form-group row">
+								<div class="col-sm-offset-2 col-sm-12 text-right">
+									<button type="button" class="btn list-group-item-primary" data-dismiss="modal" id="btn_cancelCoordinate">閉じる</button>
+									<button type="button" class="btn list-group-item-primary" id="btn_addCoordinate">追加</button>
+									<button type="button" class="btn list-group-item-primary col-sm-2" data-dismiss="modal" id="btn_confirmCoordinate">設定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade bs-example-modal-lg text-center" id="imgModal"tabindex="-1" data-toggle="modal" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+		  <div class="modal-dialog modal-lg" style="display: inline-block; width: auto;">
+			<div class="modal-content">
+			   <img  id="imgInModalID" src="" class="carousel-inner img-responsive img-rounded" data-dismiss="modal">
+			</div>
+		  </div>
+		</div>
+		<div class="modal fade" id="urlUpdateConfirm" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">エラーメッセージ</h4>
+					</div>
+					<div class="modal-body">
+						<div class="col-sm-12">
+							<ul class="col-sm-11">
+								<li>
+							</ul>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="deleteLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">確認メッセージ</h4>
+					</div>
+					<div class="modal-body">
+					   <div class="form-group">
+						   <label for="recipient-name" class="control-label">選択の画像を削除します。「はい」を押すと取り消しできません。よろしいですか？</label>
+					   </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="delete">はい</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="insertLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">確認メッセージ</h4>
+					</div>
+					<div class="modal-body">
+					   <div class="form-group">
+						   <label for="recipient-name" class="control-label">プランを登録します。「はい」を押すと取り消しできません。よろしいですか？</label>
+					   </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="btn_cancel">閉じる</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="insert">はい</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="checkLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header alert-light">
+						<h4 class="modal-title" id="myModalLabel">エラーメッセージ</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="recipient-name" class="control-label" id="checkMessage"></label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="endLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header alert-light">
+						<h4 class="modal-title" id="myModalLabel">更新完了メッセージ</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="recipient-name" class="control-label">プランの登録が完了しました。</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="messageDialog" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header alert-light">
+						<h5 class="modal-title" id="myModalLabel">エラーメッセージ</h5>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="recipient-name" class="control-label"></label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm"
+							data-dismiss="modal">閉じる</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<footer class="navbar-dark sticky-top bg-dark flex-md-nowrap border-bottom shadow-top mt-auto d-flex py-1">
+	  <div class="container">
+		  <div class="row">
+		    <div class="col-12 col-md">
+		      <img src="./images/logobottom.jpg">
+		      <small class="d-block mb-3 text-white ">株式会社イオグランツ</small>
+		    </div>
+		    <div class="col-6 col-md">
+		      <ul class="list-unstyled small">
+		        <li><a class="text-white" href="#">会社概要</a></li>
+		        <li><a class="text-white" href="#">サービス概要</a></li>
+		        <li><a class="text-white" href="#">求人情報</a></li>
+		      </ul>
+		    </div>
+		    <div class="col-6 col-md">
+		      <ul class="list-unstyled small">
+		        <li><a class="text-white" href="#">twitter</a></li>
+		        <li><a class="text-white" href="#">facebook</a></li>
+		        <li><a class="text-white" href="#">instagram</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		  <small class="d-block mb-3 text-white text-center">Copyright &copy; 2019 EOGLAnZ inc. All Rights Reserved</small>
+	  </div>
+	</footer>
+</body>
+</html>
